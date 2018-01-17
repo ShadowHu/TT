@@ -6,7 +6,11 @@
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import random
+from TTSpider.settings import PROXY_LIST
+import logging
 
+logger = logging.getLogger("TTSpider.middleware")
 
 class TtspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -54,3 +58,24 @@ class TtspiderSpiderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class RandomUserAgent(object):
+    def __init__(self, agents):
+        self.agents = agents
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings.getlist('USER_AGENT'))
+
+    def process_request(self, request, spider):
+        request.headers.setdefault('User-Agent', random.choice(self.agents))
+
+
+class ProxyMiddleware(object):
+    def process_request(self, request, spider):
+        with open(PROXY_LIST) as f:
+            proxies = f.readlines()
+        proxy = 'http://' + random.choice(proxies).rstrip()
+        request.meta['proxy'] = proxy
+        logger.info("process request %s using proxy %s" % (request, proxy))

@@ -31,7 +31,8 @@ class TTSpiderPipeline(object):
 
     def process_item(self, item, spider):
         sql = '''INSERT INTO TTUser (name, url) VALUES ("%s", "%s");''' % \
-        (item['name'], 
+        (   
+            self.connect.escape(item['name']), 
             item['url']
         )
         try:
@@ -42,10 +43,17 @@ class TTSpiderPipeline(object):
         except Exception as err:
             # print(sql)
             # self.connect.rollback()
-            self.cursor.close()
-            self.connect.close()
             logging.log(logging.ERROR, err)
-            sys.exit("SHUT DOWN EVERYTHING!")
+            try:
+                sql = '''INSERT INTO TTUser (name, url) VALUES ("%s", "%s");''' % \
+                    (   
+                        '', 
+                        item['url']
+                    )
+                self.cursor.execute(sql)
+                self.connect.commit()
+            except Exception as e:
+                pass
         else:
             logger.info('Insert successful')
             return item
