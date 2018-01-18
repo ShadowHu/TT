@@ -62,5 +62,5 @@ class TTUserSpider(scrapy.Spider):
 
     def parse_address(self, response):
         item = response.meta['item']
-        item['address'] = response.xpath("//span[@class='ProfileHeaderCard-locationText u-dir']/text()")[0].extract()
+        item['address'] = response.xpath("//span[@class='ProfileHeaderCard-locationText u-dir']//text()")[0].extract()
         return item
