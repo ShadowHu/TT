@@ -30,10 +30,11 @@ class TTSpiderPipeline(object):
         self.connect.close()
 
     def process_item(self, item, spider):
-        sql = '''INSERT INTO TTUser (name, url) VALUES ("%s", "%s");''' % \
+        sql = '''INSERT INTO TTUser (name, url, address) VALUES ("%s", "%s", "%s");''' % \
         (   
             self.connect.escape(item['name']), 
-            item['url']
+            item['url'],
+            item['address']
         )
         try:
             self.cursor.execute(sql)
@@ -45,10 +46,11 @@ class TTSpiderPipeline(object):
             # self.connect.rollback()
             logging.log(logging.ERROR, err)
             try:
-                sql = '''INSERT INTO TTUser (name, url) VALUES ("%s", "%s");''' % \
+                sql = '''INSERT INTO TTUser (name, url, address) VALUES ("%s", "%s", "%s");''' % \
                     (   
                         '', 
-                        item['url']
+                        item['url'],
+                        item['address']
                     )
                 self.cursor.execute(sql)
                 self.connect.commit()

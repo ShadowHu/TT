@@ -56,14 +56,11 @@ class TTUserSpider(scrapy.Spider):
             except IndexError:
                 logger.error("IndexError: "+item['url'])
             else:
-                yield item
-                del item
-                gc.collect()
+                yield Request(item['url'], callback=self.parse_address, meta={"item":item})
 
         yield Request(URL.format(new_latent_count, min_position), callback=self.parse)
 
-
-
-
-    # def  parse1(self, response):
-    #     pass
+    def parse_address(self, response):
+        item = response.meta['item']
+        item['address'] = response.xpath("//span[@class='ProfileHeaderCard-locationText u-dir']/text()")[0].extract()
+        return item

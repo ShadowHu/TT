@@ -99,10 +99,10 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-MYSQL_HOST = 'localhost'
-MYSQL_DBNAME = 'zsjw'
-MYSQL_USER = 'root'
-MYSQL_PASSWD = '144114'
+MYSQL_HOST = '118.193.201.171'
+MYSQL_DBNAME = 'abroadsystem'
+MYSQL_USER = 'fulua'
+MYSQL_PASSWD = 'fuluabc!@#'
 
 PROXY_LIST = 'AvailIP.txt'
 RETRY_HTTP_CODES = [500, 502, 503, 504, 400, 405, 408]
