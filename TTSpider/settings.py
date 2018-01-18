@@ -99,7 +99,7 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-MYSQL_HOST = '118.193.201.171'
+MYSQL_HOST = ''
 MYSQL_DBNAME = 'abroadsystem'
 MYSQL_USER = 'fulua'
 MYSQL_PASSWD = 'fuluabc!@#'
